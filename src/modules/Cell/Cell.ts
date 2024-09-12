@@ -16,9 +16,9 @@ export default class Cell {
   setFigure = (figure?: Figure) => {
     this.figure = figure;
     this.cell.innerHTML = "";
-    if(figure) figure.appendInto(this.cell);
+    if (figure) figure.appendInto(this.cell);
     return figure;
-  }
+  };
   appendInto = (element: HTMLElement) => element.append(this.cell);
   setClassName = (fn: (className: string) => any) => fn(this.cell.className);
 }
