@@ -1,14 +1,11 @@
-type FigureType = "pawn" | "rook" | "horse" | "elephant" | "queen" | "king";
-export default class Figure {
-  private figureType: FigureType;
+import Cell from "@/modules/Cell/Cell";
+export default abstract class Figure {
   private color: "white" | "black";
   private figure: HTMLImageElement;
   constructor(
-    figureType: FigureType,
     color: "white" | "black",
     texture: string | HTMLImageElement,
   ) {
-    this.figureType = figureType;
     this.color = color;
     if (typeof texture == "string") {
       const img = new Image();
@@ -16,11 +13,12 @@ export default class Figure {
       img.className = "w-full aspect-square";
       this.figure = img;
     } else this.figure = texture;
+    this.figure.className += " figure";
   }
   getColor = () => this.color;
-  getType = () => this.figureType;
   appendInto = (element: HTMLElement) => element.append(this.figure);
   setTexture = (texture: string | HTMLImageElement) => {
     this.figure.src = typeof texture == "string" ? texture : texture.src;
   };
+  abstract canMoveTo:(cells: Cell[][], current: Cell, to: Cell) => boolean;
 }
