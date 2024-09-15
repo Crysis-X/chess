@@ -32,8 +32,8 @@ export default class Pawn extends Figure {
         cells[current.getY() + 2] &&
         !cells[current.getY() + 2][current.getX()]?.getFigure()
       ) {
-        if(!cells[current.getY() + 1][current.getX()].getFigure())
-        variants.push(cells[current.getY() + 2][current.getX()]);
+        if (!cells[current.getY() + 1][current.getX()].getFigure())
+          variants.push(cells[current.getY() + 2][current.getX()]);
       }
     }
     if (current.getY() == 6 && this.direction == "-") {
@@ -41,8 +41,8 @@ export default class Pawn extends Figure {
         cells[current.getY() - 2] &&
         !cells[current.getY() - 2][current.getX()]?.getFigure()
       ) {
-        if(!cells[current.getY() - 1][current.getX()].getFigure())
-        variants.push(cells[current.getY() - 2][current.getX()]);
+        if (!cells[current.getY() - 1][current.getX()].getFigure())
+          variants.push(cells[current.getY() - 2][current.getX()]);
       }
     }
     if (!variants.length) return false;
