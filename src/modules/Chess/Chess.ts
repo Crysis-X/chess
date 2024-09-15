@@ -1,4 +1,6 @@
 import Cell from "../Cell/Cell";
+import Elephant from "../Elephant/Elephant";
+import King from "../King/King";
 import MoveContext from "../MoveContext/MoveContext";
 import Pawn from "../Pawn/Pawn";
 
@@ -19,16 +21,16 @@ export default class Chess {
     this.playerColor = playerColor;
   }
   addInteract = () => {
-    if(!this.cells.length) return false;
+    if (!this.cells.length) return false;
     this.moveContext = new MoveContext(this.cells);
     this.moveContext.startListening();
     return true;
-  }
+  };
   appendBoardInto = (element: HTMLElement) => {
-    if(!this.cells.length) return false;
+    if (!this.cells.length) return false;
     element.append(this.board);
     return true;
-  }
+  };
   build = async () => {
     const chars = ["a", "b", "c", "d", "e", "f", "g", "h"];
     const nums = [1, 2, 3, 4, 5, 6, 7, 8].reverse();
@@ -55,23 +57,47 @@ export default class Chess {
           this.board.append(voidCell);
           continue;
         }
-        const cell = new Cell(x, y, "cell-" + x + "-" + y, 
-          vars.cellClasses + " " + (isWhite ? "bg-white" : "bg-black"));
+        const cell = new Cell(
+          x,
+          y,
+          "cell-" + x + "-" + y,
+          vars.cellClasses + " " + (isWhite ? "bg-white" : "bg-black"),
+        );
         line.push(cell);
         cell.appendInto(this.board);
         isWhite = !isWhite;
       }
-      if(line.length) this.cells.push(line);
+      if (line.length) this.cells.push(line);
       isWhite = !isWhite;
     }
     this.spawnFigures();
   };
   private spawnFigures = () => {
-    if(!this.cells.length) return false;
-    for(let i = 0; i < 8; i++){
-      this.cells[1][i].setFigure(new Pawn("black", this.playerColor == "white" ? "+" : "-"));
-      this.cells[6][i].setFigure(new Pawn("white", this.playerColor == "white" ? "-" : "+"));
+    if (!this.cells.length) return false;
+    for (let i = 0; i < 8; i++) {
+      if (this.playerColor == "white") {
+        this.cells[1][i].setFigure(new Pawn("black", "+"));
+        this.cells[6][i].setFigure(new Pawn("white", "-"));
+      } else {
+        this.cells[1][i].setFigure(new Pawn("white", "+"));
+        this.cells[6][i].setFigure(new Pawn("black", "-"));
+      }
+    }
+    if (this.playerColor == "white") {
+      this.cells[0][4].setFigure(new King("black"));
+      this.cells[7][4].setFigure(new King("white"));
+      this.cells[0][2].setFigure(new Elephant("black"));
+      this.cells[0][5].setFigure(new Elephant("black"));
+      this.cells[7][2].setFigure(new Elephant("white"));
+      this.cells[7][5].setFigure(new Elephant("white"));
+    } else {
+      this.cells[0][3].setFigure(new King("white"));
+      this.cells[7][3].setFigure(new King("black"));
+      this.cells[7][2].setFigure(new Elephant("black"));
+      this.cells[7][5].setFigure(new Elephant("black"));
+      this.cells[0][2].setFigure(new Elephant("white"));
+      this.cells[0][5].setFigure(new Elephant("white"));
     }
     return true;
-  }
+  };
 }
