@@ -31,30 +31,28 @@ export default class MoveContext {
         document.addEventListener("mousemove", onMove);
         document.onmouseup = (event) => {
           fake.remove();
-          if (e.target instanceof HTMLImageElement) e.target.style.display = "inline";
+          if (e.target instanceof HTMLImageElement)
+            e.target.style.display = "inline";
           document.removeEventListener("mousemove", onMove);
           document.onmouseup = null;
-            if (cell && cell.id.includes("cell-")) {
-              const elemsBelow = document.elementsFromPoint(
-                event.clientX,
-                event.clientY,
-              );
-              for (let i = 0; i < elemsBelow.length; i++) {
-                if (elemsBelow[i].id.includes("cell-")) {
-                  const [cls, x, y] = elemsBelow[i].id.split("-");
-                  const newCell =
-                    this.cells[Number(y)][Number(x)];
-                  if (
-                    oldCell
-                      ?.getFigure()
-                      ?.canMoveTo(this.cells, oldCell, newCell)
-                  ) {
-                    newCell.setFigure(figure);
-                    oldCell.setFigure();
-                  }
-                  break;
+          if (cell && cell.id.includes("cell-")) {
+            const elemsBelow = document.elementsFromPoint(
+              event.clientX,
+              event.clientY,
+            );
+            for (let i = 0; i < elemsBelow.length; i++) {
+              if (elemsBelow[i].id.includes("cell-")) {
+                const [cls, x, y] = elemsBelow[i].id.split("-");
+                const newCell = this.cells[Number(y)][Number(x)];
+                if (
+                  oldCell?.getFigure()?.canMoveTo(this.cells, oldCell, newCell)
+                ) {
+                  newCell.setFigure(figure);
+                  oldCell.setFigure();
                 }
+                break;
               }
+            }
           }
         };
       }
