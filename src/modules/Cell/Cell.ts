@@ -7,10 +7,10 @@ export default class Cell {
   private cell = document.createElement("div");
   private id: string;
   constructor(x: number, y: number, id: string, className?: string) {
-    console.log("cell");
     this.x = x;
     this.y = y;
     this.id = id;
+    this.cell.id = id;
     this.cell.className = className || "";
   }
   getId = () => this.id;
