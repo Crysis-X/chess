@@ -18,25 +18,31 @@ export default class Pawn extends Figure {
     x = current.getX() + 1;
     if (cells[y] && cells[y][x]?.getFigure()) {
       const cell = cells[y][x];
-      if (!(cell.getFigure()?.getColor() == current.getFigure()?.getColor()))
+      if (!(cell.getFigure()?.getColor() == this.getColor()))
         variants.push(cell);
     }
     x = current.getX() - 1;
     if (cells[y] && cells[y][x]?.getFigure()) {
       const cell = cells[y][x];
-      if (!(cell.getFigure()?.getColor() == current.getFigure()?.getColor()))
+      if (!(cell.getFigure()?.getColor() == this.getColor()))
         variants.push(cell);
     }
-      if(current.getY() == 1 && this.direction == "+"){
-        if(cells[current.getY() + 2] && !cells[current.getY() + 2][current.getX()]?.getFigure()){
-          variants.push(cells[current.getY() + 2][current.getX()]);
-        }
+    if (current.getY() == 1 && this.direction == "+") {
+      if (
+        cells[current.getY() + 2] &&
+        !cells[current.getY() + 2][current.getX()]?.getFigure()
+      ) {
+        variants.push(cells[current.getY() + 2][current.getX()]);
       }
-      if(current.getY() == 6 && this.direction == "-"){
-        if(cells[current.getY() - 2] && !cells[current.getY() - 2][current.getX()]?.getFigure()){
-          variants.push(cells[current.getY() - 2][current.getX()]);
-        }
+    }
+    if (current.getY() == 6 && this.direction == "-") {
+      if (
+        cells[current.getY() - 2] &&
+        !cells[current.getY() - 2][current.getX()]?.getFigure()
+      ) {
+        variants.push(cells[current.getY() - 2][current.getX()]);
       }
+    }
     if (!variants.length) return false;
     for (let i = 0; i < variants.length; i++) {
       if (variants[i].getX() == to.getX() && variants[i].getY() == to.getY())
