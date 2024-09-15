@@ -3,6 +3,7 @@ import Elephant from "../Elephant/Elephant";
 import King from "../King/King";
 import MoveContext from "../MoveContext/MoveContext";
 import Pawn from "../Pawn/Pawn";
+import Rook from "../Rook/Rook";
 
 type gameType = "online" | "double" | "offline";
 const vars = {
@@ -90,6 +91,10 @@ export default class Chess {
       this.cells[0][5].setFigure(new Elephant("black"));
       this.cells[7][2].setFigure(new Elephant("white"));
       this.cells[7][5].setFigure(new Elephant("white"));
+      this.cells[0][0].setFigure(new Rook("black"));
+      this.cells[0][7].setFigure(new Rook("black"));
+      this.cells[7][0].setFigure(new Rook("white"));
+      this.cells[7][7].setFigure(new Rook("white"));
     } else {
       this.cells[0][3].setFigure(new King("white"));
       this.cells[7][3].setFigure(new King("black"));
@@ -97,6 +102,10 @@ export default class Chess {
       this.cells[7][5].setFigure(new Elephant("black"));
       this.cells[0][2].setFigure(new Elephant("white"));
       this.cells[0][5].setFigure(new Elephant("white"));
+      this.cells[0][0].setFigure(new Rook("white"));
+      this.cells[0][7].setFigure(new Rook("white"));
+      this.cells[7][0].setFigure(new Rook("black"));
+      this.cells[7][7].setFigure(new Rook("black"));
     }
     return true;
   };
