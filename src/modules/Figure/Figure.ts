@@ -2,10 +2,7 @@ import Cell from "@/modules/Cell/Cell";
 export default abstract class Figure {
   private color: "white" | "black";
   private figure: HTMLImageElement;
-  constructor(
-    color: "white" | "black",
-    texture: string | HTMLImageElement,
-  ) {
+  constructor(color: "white" | "black", texture: string | HTMLImageElement) {
     this.color = color;
     if (typeof texture == "string") {
       const img = new Image();
@@ -20,5 +17,5 @@ export default abstract class Figure {
   setTexture = (texture: string | HTMLImageElement) => {
     this.figure.src = typeof texture == "string" ? texture : texture.src;
   };
-  abstract canMoveTo:(cells: Cell[][], current: Cell, to: Cell) => boolean;
+  abstract canMoveTo: (cells: Cell[][], current: Cell, to: Cell) => boolean;
 }
