@@ -1,9 +1,15 @@
 import Cell from "../Cell/Cell";
+import { GameType } from "../Chess/Chess";
 
 export default class MoveContext {
   private cells: Cell[][] = [];
-  constructor(cells: Cell[][]) {
+  private playerColor: "white" | "black";
+  private gameType: GameType;
+  private turn: "white" | "black" = "white";
+  constructor(cells: Cell[][], playerColor: "white" | "black", gameType: GameType) {
     this.cells = cells;
+    this.playerColor = playerColor;
+    this.gameType = gameType;
   }
   private createFake = (element: HTMLImageElement) => {
     const clone = element.cloneNode(true) as HTMLImageElement;
@@ -14,6 +20,9 @@ export default class MoveContext {
   };
   private onDragStart = (e: MouseEvent) => e.preventDefault();
   private onMouseDown = (e: MouseEvent) => {
+    if(this.gameType == "online"){
+      if(this.playerColor != this.turn) return;
+    }
     if (
       e.target instanceof HTMLImageElement &&
       e.target.className.includes("figure")
@@ -23,6 +32,9 @@ export default class MoveContext {
         const [cls, x, y] = cell.id.split("-");
         const oldCell = this.cells[Number(y)][Number(x)];
         const figure = oldCell.getFigure();
+        if(this.gameType == "double"){
+          if(figure && figure.getColor() != this.turn) return;
+        }
         const fake = this.createFake(e.target);
         e.target.style.display = "none";
         document.body.append(fake);
@@ -49,6 +61,7 @@ export default class MoveContext {
                 ) {
                   newCell.setFigure(figure);
                   oldCell.setFigure();
+                  this.turn = this.turn == "white" ? "black" : "white"; 
                 }
                 break;
               }

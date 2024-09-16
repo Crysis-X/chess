@@ -7,25 +7,25 @@ import Pawn from "../Pawn/Pawn";
 import Queen from "../Queen/Queen";
 import Rook from "../Rook/Rook";
 
-type gameType = "online" | "double" | "offline";
+export type GameType = "online" | "double"; 
 const vars = {
   cellClasses: "w-[3vw] aspect-square flex items-center justify-center text-lg",
   boardClasses: "w-[30vw] flex flex-wrap border-border border-1 box-content",
 };
 export default class Chess {
-  private type: gameType;
+  private type: GameType;
   private board = document.createElement("div");
   private playerColor: "white" | "black";
   private cells: Cell[][] = [];
   private moveContext?: MoveContext;
-  constructor(type: gameType, playerColor: "white" | "black" = "white") {
+  constructor(type: GameType, playerColor: "white" | "black" = "white") {
     this.type = type;
     this.board.className = vars.boardClasses;
     this.playerColor = playerColor;
   }
   addInteract = () => {
     if (!this.cells.length) return false;
-    this.moveContext = new MoveContext(this.cells);
+    this.moveContext = new MoveContext(this.cells, this.playerColor, this.type);
     this.moveContext.startListening();
     return true;
   };
