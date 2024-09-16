@@ -1,5 +1,6 @@
 import Cell from "../Cell/Cell";
 import Elephant from "../Elephant/Elephant";
+import Horse from "../Horse/Horse";
 import King from "../King/King";
 import MoveContext from "../MoveContext/MoveContext";
 import Pawn from "../Pawn/Pawn";
@@ -88,12 +89,16 @@ export default class Chess {
     if (this.playerColor == "white") {
       this.cells[0][4].setFigure(new King("black"));
       this.cells[7][4].setFigure(new King("white"));
-      this.cells[0][3].setFigure(new Queen("white"));
-      this.cells[7][3].setFigure(new Queen("black"));
+      this.cells[7][3].setFigure(new Queen("white"));
+      this.cells[0][3].setFigure(new Queen("black"));
       this.cells[0][2].setFigure(new Elephant("black"));
       this.cells[0][5].setFigure(new Elephant("black"));
       this.cells[7][2].setFigure(new Elephant("white"));
       this.cells[7][5].setFigure(new Elephant("white"));
+      this.cells[0][1].setFigure(new Horse("black"));
+      this.cells[0][6].setFigure(new Horse("black"));
+      this.cells[7][1].setFigure(new Horse("white"));
+      this.cells[7][6].setFigure(new Horse("white"));
       this.cells[0][0].setFigure(new Rook("black"));
       this.cells[0][7].setFigure(new Rook("black"));
       this.cells[7][0].setFigure(new Rook("white"));
@@ -107,6 +112,10 @@ export default class Chess {
       this.cells[7][5].setFigure(new Elephant("black"));
       this.cells[0][2].setFigure(new Elephant("white"));
       this.cells[0][5].setFigure(new Elephant("white"));
+      this.cells[7][1].setFigure(new Horse("black"));
+      this.cells[7][6].setFigure(new Horse("black"));
+      this.cells[0][1].setFigure(new Horse("white"));
+      this.cells[0][6].setFigure(new Horse("white"));
       this.cells[0][0].setFigure(new Rook("white"));
       this.cells[0][7].setFigure(new Rook("white"));
       this.cells[7][0].setFigure(new Rook("black"));
