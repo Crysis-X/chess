@@ -8,6 +8,9 @@ import Queen from "../Queen/Queen";
 import Rook from "../Rook/Rook";
 
 export type GameType = "online" | "double"; 
+export type Actions = {
+  whenPawnOnEnd?: () => "queen" | "rook" | "horse" | "elephant";
+}
 const vars = {
   cellClasses: "w-[3vw] aspect-square flex items-center justify-center text-lg",
   boardClasses: "w-[30vw] flex flex-wrap border-border border-1 box-content",
@@ -18,14 +21,16 @@ export default class Chess {
   private playerColor: "white" | "black";
   private cells: Cell[][] = [];
   private moveContext?: MoveContext;
-  constructor(type: GameType, playerColor: "white" | "black" = "white") {
+  private actions: Actions;
+  constructor(type: GameType, actions: Actions, playerColor: "white" | "black" = "white") {
     this.type = type;
     this.board.className = vars.boardClasses;
     this.playerColor = playerColor;
+    this.actions = actions;
   }
   addInteract = () => {
     if (!this.cells.length) return false;
-    this.moveContext = new MoveContext(this.cells, this.playerColor, this.type);
+    this.moveContext = new MoveContext(this.cells, this.playerColor, this.type, this.actions);
     this.moveContext.startListening();
     return true;
   };

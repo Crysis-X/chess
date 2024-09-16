@@ -1,15 +1,23 @@
 import Cell from "../Cell/Cell";
-import { GameType } from "../Chess/Chess";
+import { Actions, GameType } from "../Chess/Chess";
+import Elephant from "../Elephant/Elephant";
+import Figure from "../Figure/Figure";
+import Horse from "../Horse/Horse";
+import Pawn from "../Pawn/Pawn";
+import Queen from "../Queen/Queen";
+import Rook from "../Rook/Rook";
 
 export default class MoveContext {
   private cells: Cell[][] = [];
   private playerColor: "white" | "black";
   private gameType: GameType;
   private turn: "white" | "black" = "white";
-  constructor(cells: Cell[][], playerColor: "white" | "black", gameType: GameType) {
+  private actions: Actions;
+  constructor(cells: Cell[][], playerColor: "white" | "black", gameType: GameType, actions: Actions) {
     this.cells = cells;
     this.playerColor = playerColor;
     this.gameType = gameType;
+    this.actions = actions;
   }
   private createFake = (element: HTMLImageElement) => {
     const clone = element.cloneNode(true) as HTMLImageElement;
@@ -31,7 +39,7 @@ export default class MoveContext {
       if (cell && cell.id.includes("cell-")) {
         const [cls, x, y] = cell.id.split("-");
         const oldCell = this.cells[Number(y)][Number(x)];
-        const figure = oldCell.getFigure();
+        let figure = oldCell.getFigure();
         if(this.gameType == "double"){
           if(figure && figure.getColor() != this.turn) return;
         }
@@ -58,7 +66,17 @@ export default class MoveContext {
                 const newCell = this.cells[Number(y)][Number(x)];
                 if (
                   oldCell?.getFigure()?.canMoveTo(this.cells, oldCell, newCell)
-                ) {
+                ) { 
+                  const oldFigure = oldCell.getFigure();
+                  if(oldFigure instanceof Pawn){
+                    if(newCell.getY() === 0 || newCell.getY() == 7){
+                      const res = this.actions.whenPawnOnEnd && this.actions.whenPawnOnEnd();
+                      if(res == "queen") figure = new Queen(oldFigure.getColor());
+                      else if(res == "rook") figure = new Rook(oldFigure.getColor());
+                      else if(res == "horse") figure = new Horse(oldFigure.getColor());
+                      else if(res == "elephant") figure = new Elephant(oldFigure.getColor());
+                    }
+                  }
                   newCell.setFigure(figure);
                   oldCell.setFigure();
                   this.turn = this.turn == "white" ? "black" : "white"; 
