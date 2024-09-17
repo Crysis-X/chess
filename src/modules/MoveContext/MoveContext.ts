@@ -14,20 +14,11 @@ export default class MoveContext {
   private gameType: GameType;
   private turn: "white" | "black" = "white";
   private actions: Actions;
-  private whiteKing?: Cell;
-  private blackKing?: Cell;
   constructor(cells: Cell[][], playerColor: "white" | "black", gameType: GameType, actions: Actions) {
     this.cells = cells;
     this.playerColor = playerColor;
     this.gameType = gameType;
     this.actions = actions;
-    cells.forEach((line) => line.forEach(cell => {
-      const figure = cell.getFigure();
-      if(figure instanceof King){
-        if(figure.getColor() == "white") this.whiteKing = cell;
-        else this.blackKing = cell;
-      } 
-    }));
   }
   private createFake = (element: HTMLImageElement) => {
     const clone = element.cloneNode(true) as HTMLImageElement;
@@ -74,6 +65,53 @@ export default class MoveContext {
               if (elemsBelow[i].id.includes("cell-")) {
                 const [cls, x, y] = elemsBelow[i].id.split("-");
                 const newCell = this.cells[Number(y)][Number(x)];
+                if(figure instanceof King){
+                  if(!figure.isMoved()){
+                    if(newCell.getX() + 2 == oldCell.getX()){
+                      for(let i = 1; i < 5; i++){
+                        const y = oldCell.getY();
+                        const x = oldCell.getX() - i;
+                        const cell = this.cells[y][x];
+                        const cellFigure = cell?.getFigure();
+                        if(cellFigure){
+                          if(cellFigure instanceof Rook && !cellFigure.isMoved()){
+                            figure.setIsMoved(true);
+                            cellFigure.setIsMoved(true);
+                            this.cells[newCell.getY()][newCell.getX() + 1].setFigure(cellFigure);
+                            cell.setFigure();
+                            this.cells[oldCell.getY()][oldCell.getX() - 2].setFigure(figure);
+                            oldCell.setFigure();
+                            this.turn = this.turn == "white" ? "black" : "white";
+                          }
+                          else return;
+                        };
+                      }
+                    }
+                    else if(newCell.getX() - 2 == oldCell.getX()){
+                        for(let i = 1; i < 5; i++){
+                        const y = oldCell.getY();
+                        const x = oldCell.getX() + i;
+                        const cell = this.cells[y][x];
+                        const cellFigure = cell?.getFigure(); 
+                        if(cellFigure){
+                          if(cellFigure instanceof Rook && !cellFigure.isMoved()){
+                            figure.setIsMoved(true);
+                            cellFigure.setIsMoved(true);
+                            this.cells[newCell.getY()][newCell.getX() - 1].setFigure(cellFigure);
+                            cell.setFigure();
+                            this.cells[oldCell.getY()][oldCell.getX() + 2].setFigure(figure);
+                            oldCell.setFigure();
+                            this.turn = this.turn == "white" ? "black" : "white";
+                          }
+                          else return;
+                        };
+                      }
+                    }
+                    }
+                  else {
+
+                  }
+                }
                 if (
                   oldCell?.getFigure()?.canMoveTo(this.cells, oldCell, newCell)
                 ) { 
@@ -90,6 +128,7 @@ export default class MoveContext {
                   const killedFigure = newCell.getFigure(); 
                   if(killedFigure instanceof King)
                     this.actions.whenKingIsKilled && this.actions.whenKingIsKilled(killedFigure.getColor());
+                  if(figure instanceof King) figure.setIsMoved(true);
                   newCell.setFigure(figure);
                   oldCell.setFigure();
                   this.turn = this.turn == "white" ? "black" : "white"; 
