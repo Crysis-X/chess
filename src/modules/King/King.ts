@@ -4,9 +4,12 @@ import kingWhite from "@/assets/king-white.png";
 import Cell from "../Cell/Cell";
 
 export default class King extends Figure {
+  private kingIsMoved = false;
   constructor(color: "white" | "black") {
     super(color, color == "white" ? kingWhite.src : king.src);
   }
+  setIsMoved = (isMoved: boolean) => this.kingIsMoved = isMoved;
+  isMoved = () => this.kingIsMoved;
   canMoveTo = (cells: Cell[][], current: Cell, to: Cell) => {
     const variants: Cell[] = [];
     const plus = [
