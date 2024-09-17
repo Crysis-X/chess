@@ -10,6 +10,7 @@ import Rook from "../Rook/Rook";
 export type GameType = "online" | "double"; 
 export type Actions = {
   whenPawnOnEnd?: () => "queen" | "rook" | "horse" | "elephant";
+  whenKingIsKilled?: (winner: "white" | "black") => any;  
 }
 const vars = {
   cellClasses: "w-[3vw] aspect-square flex items-center justify-center text-lg",

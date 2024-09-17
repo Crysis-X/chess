@@ -3,6 +3,7 @@ import { Actions, GameType } from "../Chess/Chess";
 import Elephant from "../Elephant/Elephant";
 import Figure from "../Figure/Figure";
 import Horse from "../Horse/Horse";
+import King from "../King/King";
 import Pawn from "../Pawn/Pawn";
 import Queen from "../Queen/Queen";
 import Rook from "../Rook/Rook";
@@ -13,11 +14,20 @@ export default class MoveContext {
   private gameType: GameType;
   private turn: "white" | "black" = "white";
   private actions: Actions;
+  private whiteKing?: Cell;
+  private blackKing?: Cell;
   constructor(cells: Cell[][], playerColor: "white" | "black", gameType: GameType, actions: Actions) {
     this.cells = cells;
     this.playerColor = playerColor;
     this.gameType = gameType;
     this.actions = actions;
+    cells.forEach((line) => line.forEach(cell => {
+      const figure = cell.getFigure();
+      if(figure instanceof King){
+        if(figure.getColor() == "white") this.whiteKing = cell;
+        else this.blackKing = cell;
+      } 
+    }));
   }
   private createFake = (element: HTMLImageElement) => {
     const clone = element.cloneNode(true) as HTMLImageElement;
@@ -44,9 +54,9 @@ export default class MoveContext {
           if(figure && figure.getColor() != this.turn) return;
         }
         const fake = this.createFake(e.target);
-        e.target.style.display = "none";
         document.body.append(fake);
         this.toMouse(e, fake);
+        e.target.style.display = "none";
         const onMove = (event: MouseEvent) => this.toMouse(event, fake);
         document.addEventListener("mousemove", onMove);
         document.onmouseup = (event) => {
@@ -77,6 +87,9 @@ export default class MoveContext {
                       else if(res == "elephant") figure = new Elephant(oldFigure.getColor());
                     }
                   }
+                  const killedFigure = newCell.getFigure(); 
+                  if(killedFigure instanceof King)
+                    this.actions.whenKingIsKilled && this.actions.whenKingIsKilled(killedFigure.getColor());
                   newCell.setFigure(figure);
                   oldCell.setFigure();
                   this.turn = this.turn == "white" ? "black" : "white"; 
