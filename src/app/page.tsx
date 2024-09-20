@@ -3,6 +3,7 @@
 import Turn from "@/components/Turn/Turn";
 import Chess from "@/modules/Chess/Chess";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { toast } from "sonner";
 
 export default function Page() {
   const [game, setGame] = useState<Chess | undefined>();
@@ -12,6 +13,11 @@ export default function Page() {
   }, []);
   useEffect(() => {
     if (!game) return;
+    game.actions.whenPawnOnEnd = () => "queen";
+    game.actions.whenKingIsKilled.push((winner) => {
+      toast("Выграли: " + (winner == "black" ? "чёрные" : "белые"));
+      game.removeinteract();
+    });
     game.build().then(() => {
       if (!board.current) throw new Error("не найдено board");
       game.appendBoardInto(board.current);

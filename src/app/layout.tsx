@@ -1,3 +1,4 @@
+import { Toaster } from "@/components/shadcn/ui/sonner";
 import "./globals.css";
 
 export default function RootLayout({
@@ -7,7 +8,10 @@ export default function RootLayout({
 }>) {
   return (
     <html>
-      <body>{children}</body>
+      <body>
+        {children}
+        <Toaster />
+      </body>
     </html>
   );
 }
