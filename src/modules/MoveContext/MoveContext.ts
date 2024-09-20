@@ -9,7 +9,7 @@ import Queen from "../Queen/Queen";
 import Rook from "../Rook/Rook";
 
 export default class MoveContext {
-  private cells: Cell[][] = [];
+  private cells: Cell[][];
   private playerColor: "white" | "black";
   private gameType: GameType;
   private turn: "white" | "black" = "white";
