@@ -8,14 +8,15 @@ import Queen from "../Queen/Queen";
 import Rook from "../Rook/Rook";
 
 export type GameType = "online" | "double"; 
-export type Actions = {
-  whenPawnOnEnd?: () => "queen" | "rook" | "horse" | "elephant";
-  whenKingIsKilled?: (winner: "white" | "black") => any;  
-  whenTurnToggled?: (turn: "white" | "black") => any;
-}
+
 const vars = {
   cellClasses: "w-[3vw] aspect-square flex items-center justify-center text-lg",
   boardClasses: "w-[30vw] flex flex-wrap border-border border-1 box-content",
+};
+export type Actions = {
+  whenKingIsKilled: Array<(winner: "white" | "black") => any>;
+  whenTurnToggled: Array<(turn: "white" | "black" | undefined) => any>;
+  whenPawnOnEnd?: () => "queen" | "rook" | "horse" | "elephant";
 };
 export default class Chess {
   private type: GameType;
@@ -23,12 +24,14 @@ export default class Chess {
   private playerColor: "white" | "black";
   private cells: Cell[][] = [];
   private moveContext?: MoveContext;
-  private actions: Actions;
-  constructor(type: GameType, actions: Actions, playerColor: "white" | "black" = "white") {
+  actions: Actions = {
+    whenKingIsKilled: [],
+    whenTurnToggled: [],
+  }
+  constructor(type: GameType, playerColor: "white" | "black" = "white") {
     this.type = type;
     this.board.className = vars.boardClasses;
     this.playerColor = playerColor;
-    this.actions = actions;
   }
   getTurn = () => this.moveContext?.getTurn();
   addInteract = () => {
