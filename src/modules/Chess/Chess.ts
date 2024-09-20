@@ -7,7 +7,7 @@ import Pawn from "../Pawn/Pawn";
 import Queen from "../Queen/Queen";
 import Rook from "../Rook/Rook";
 
-export type GameType = "online" | "double"; 
+export type GameType = "online" | "double";
 
 const vars = {
   cellClasses: "w-[3vw] aspect-square flex items-center justify-center text-lg",
@@ -27,7 +27,7 @@ export default class Chess {
   actions: Actions = {
     whenKingIsKilled: [],
     whenTurnToggled: [],
-  }
+  };
   constructor(type: GameType, playerColor: "white" | "black" = "white") {
     this.type = type;
     this.board.className = vars.boardClasses;
@@ -36,7 +36,12 @@ export default class Chess {
   getTurn = () => this.moveContext?.getTurn();
   addInteract = () => {
     if (!this.cells.length) return false;
-    this.moveContext = new MoveContext(this.cells, this.playerColor, this.type, this.actions);
+    this.moveContext = new MoveContext(
+      this.cells,
+      this.playerColor,
+      this.type,
+      this.actions,
+    );
     this.moveContext.startListening();
     return true;
   };

@@ -8,7 +8,7 @@ export default class King extends Figure {
   constructor(color: "white" | "black") {
     super(color, color == "white" ? kingWhite.src : king.src);
   }
-  setIsMoved = (isMoved: boolean) => this.kingIsMoved = isMoved;
+  setIsMoved = (isMoved: boolean) => (this.kingIsMoved = isMoved);
   isMoved = () => this.kingIsMoved;
   canMoveTo = (cells: Cell[][], current: Cell, to: Cell) => {
     const variants: Cell[] = [];

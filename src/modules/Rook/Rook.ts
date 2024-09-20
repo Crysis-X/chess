@@ -8,7 +8,7 @@ export default class Rook extends Figure {
     super(color, color == "white" ? rookWhite.src : rook.src);
   }
   isMoved = () => this.RookIsMoved;
-  setIsMoved = (isMoved: boolean) => this.RookIsMoved = isMoved;
+  setIsMoved = (isMoved: boolean) => (this.RookIsMoved = isMoved);
   private checker = (cells: Cell[][], x: number, y: number) => {
     if (cells[y] && cells[y][x]) {
       const figure = cells[y][x].getFigure();
