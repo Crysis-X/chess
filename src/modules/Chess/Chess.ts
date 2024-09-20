@@ -46,9 +46,9 @@ export default class Chess {
     return true;
   };
   removeinteract = () => {
-    if(!this.moveContext) return false;
+    if (!this.moveContext) return false;
     this.moveContext.stopListeting();
-  }
+  };
   appendBoardInto = (element: HTMLElement) => {
     if (!this.cells.length) return false;
     element.append(this.board);

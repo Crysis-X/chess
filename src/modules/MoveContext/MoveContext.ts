@@ -180,5 +180,5 @@ export default class MoveContext {
   stopListeting = () => {
     document.removeEventListener("dragstart", this.onDragStart);
     document.onmousedown = null;
-  }
+  };
 }
