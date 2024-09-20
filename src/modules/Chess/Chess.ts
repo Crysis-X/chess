@@ -45,6 +45,10 @@ export default class Chess {
     this.moveContext.startListening();
     return true;
   };
+  removeinteract = () => {
+    if(!this.moveContext) return false;
+    this.moveContext.stopListeting();
+  }
   appendBoardInto = (element: HTMLElement) => {
     if (!this.cells.length) return false;
     element.append(this.board);
