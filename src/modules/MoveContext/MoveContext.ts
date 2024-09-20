@@ -1,7 +1,6 @@
 import Cell from "../Cell/Cell";
 import { Actions, GameType } from "../Chess/Chess";
 import Elephant from "../Elephant/Elephant";
-import Figure from "../Figure/Figure";
 import Horse from "../Horse/Horse";
 import King from "../King/King";
 import Pawn from "../Pawn/Pawn";
@@ -19,6 +18,10 @@ export default class MoveContext {
     this.playerColor = playerColor;
     this.gameType = gameType;
     this.actions = actions;
+  }
+  private toggleTurn = () => {
+    this.turn = this.turn == "white" ? "black" : "white"; 
+    this.actions.whenTurnToggled && this.actions.whenTurnToggled(this.turn);
   }
   private createFake = (element: HTMLImageElement) => {
     const clone = element.cloneNode(true) as HTMLImageElement;
@@ -81,7 +84,7 @@ export default class MoveContext {
                             cell.setFigure();
                             this.cells[oldCell.getY()][oldCell.getX() - 2].setFigure(figure);
                             oldCell.setFigure();
-                            this.turn = this.turn == "white" ? "black" : "white";
+                            this.toggleTurn();
                           }
                           else return;
                         };
@@ -101,7 +104,7 @@ export default class MoveContext {
                             cell.setFigure();
                             this.cells[oldCell.getY()][oldCell.getX() + 2].setFigure(figure);
                             oldCell.setFigure();
-                            this.turn = this.turn == "white" ? "black" : "white";
+                            this.toggleTurn();
                           }
                           else return;
                         };
@@ -131,7 +134,7 @@ export default class MoveContext {
                   if(figure instanceof King) figure.setIsMoved(true);
                   newCell.setFigure(figure);
                   oldCell.setFigure();
-                  this.turn = this.turn == "white" ? "black" : "white"; 
+                  this.toggleTurn();
                 }
                 break;
               }
@@ -145,6 +148,7 @@ export default class MoveContext {
     element.style.left = event.pageX - element.offsetWidth / 2 + "px";
     element.style.top = event.pageY - element.offsetHeight / 2 + "px";
   };
+  getTurn = () => this.turn;
   startListening = () => {
     document.addEventListener("dragstart", this.onDragStart);
     document.onmousedown = this.onMouseDown;

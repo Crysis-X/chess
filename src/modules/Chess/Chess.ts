@@ -11,6 +11,7 @@ export type GameType = "online" | "double";
 export type Actions = {
   whenPawnOnEnd?: () => "queen" | "rook" | "horse" | "elephant";
   whenKingIsKilled?: (winner: "white" | "black") => any;  
+  whenTurnToggled?: (turn: "white" | "black") => any;
 }
 const vars = {
   cellClasses: "w-[3vw] aspect-square flex items-center justify-center text-lg",
@@ -29,6 +30,7 @@ export default class Chess {
     this.playerColor = playerColor;
     this.actions = actions;
   }
+  getTurn = () => this.moveContext?.getTurn();
   addInteract = () => {
     if (!this.cells.length) return false;
     this.moveContext = new MoveContext(this.cells, this.playerColor, this.type, this.actions);
