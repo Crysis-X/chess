@@ -46,8 +46,9 @@ export default class MoveContext {
     ) {
       const cell = e.target.parentElement;
       if (cell && cell.id.includes("cell-")) {
-        const [cls, x, y] = cell.id.split("-");
-        const oldCell = this.cells[Number(y)][Number(x)];
+        let [cls, x, y] = cell.id.split("-");
+	cls = "";
+	const oldCell = this.cells[Number(y)][Number(x)];
         let figure = oldCell.getFigure();
         if (this.gameType == "double") {
           if (figure && figure.getColor() != this.turn) return;
@@ -71,9 +72,10 @@ export default class MoveContext {
             );
             for (let i = 0; i < elemsBelow.length; i++) {
               if (elemsBelow[i].id.includes("cell-")) {
-                const [cls, x, y] = elemsBelow[i].id.split("-");
+                let [cls, x, y] = elemsBelow[i].id.split("-");
                 const newCell = this.cells[Number(y)][Number(x)];
-                if (figure instanceof King) {
+                cls = "";
+		if (figure instanceof King) {
                   if (!figure.isMoved()) {
                     if (newCell.getX() + 2 == oldCell.getX()) {
                       for (let i = 1; i < 5; i++) {

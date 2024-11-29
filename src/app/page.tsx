@@ -2,7 +2,7 @@
 
 import Turn from "@/components/Turn/Turn";
 import Chess from "@/modules/Chess/Chess";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
 export default function Page() {

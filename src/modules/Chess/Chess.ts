@@ -14,8 +14,8 @@ const vars = {
   boardClasses: "w-[30vw] flex flex-wrap border-border border-1 box-content",
 };
 export type Actions = {
-  whenKingIsKilled: Array<(winner: "white" | "black") => any>;
-  whenTurnToggled: Array<(turn: "white" | "black" | undefined) => any>;
+  whenKingIsKilled: Array<(winner: "white" | "black") => unknown>;
+  whenTurnToggled: Array<(turn: "white" | "black" | undefined) => unknown>;
   whenPawnOnEnd?: () => "queen" | "rook" | "horse" | "elephant";
 };
 export default class Chess {

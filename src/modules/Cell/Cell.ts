@@ -24,5 +24,5 @@ export default class Cell {
   };
   getFigure = () => this.figure;
   appendInto = (element: HTMLElement) => element.append(this.cell);
-  setClassName = (fn: (className: string) => any) => fn(this.cell.className);
+  setClassName = (fn: (className: string) => unknown) => fn(this.cell.className);
 }

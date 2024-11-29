@@ -12,7 +12,7 @@ export default class Pawn extends Figure {
   canMoveTo = (cells: Cell[][], current: Cell, to: Cell) => {
     if (!current.getFigure()) return false;
     const variants: Cell[] = [];
-    let y = this.direction == "+" ? current.getY() + 1 : current.getY() - 1;
+    const y = this.direction == "+" ? current.getY() + 1 : current.getY() - 1;
     let x = current.getX();
     if (cells[y] && !cells[y][x]?.getFigure()) variants.push(cells[y][x]);
     x = current.getX() + 1;
